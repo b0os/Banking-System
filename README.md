@@ -1,80 +1,130 @@
-## Banking-System
-The banking application allows the user, i.e., the  bank employee to create a bank account for a specific client. It allows him to list all the available  bank accounts. For each account, it allows him to display the account details, withdraw money and  deposit money.
+# Banking System
 
-There are two types of bank accounts. The first type is the basic BankAccount. It holds the 
-following data:
+This Banking System application allows bank employees to manage client accounts efficiently. It enables creating new bank accounts, listing clients and their accounts, as well as performing withdrawal and deposit operations.
 
-• account ID 
+### Technologies Used:
+- C++ for the application logic
+- SQLite for database management
 
-• balance       
+The application utilizes SQLite to store and manage bank account details, providing a strong and efficient solution for data storage.
 
-The following methods apply to this class: 
+---
 
-• Constructor. There are 2 constructors. The first sets the balance to a given value. The second is 
+## Classes and Functionality
 
-a no-argument constructor and it sets the balance to 0. 
-• Setters and getters. These methods allow accessing the private data fields. 
-• withdraw. It withdraws an amount of money from the account if the balance is sufficient. 
-• deposit. It deposits an amount of money in the account. 
-The second type of accounts extends the basic Bank Account and may have some extra data fields 
-and operations. It is called SavingsBankAccount. This account requires the user to keep a 
-minimum amount of money in the account, which is called the minimum balance, as long as the 
-account is open. It also requires him to make deposits that are not less than 100 a time. So, it has 
-the following additional data field: 
-• minimumBalance This minimum balance takes a default value of 1000 L.E. 
-It has the following methods plus those inherited from the parent class: 
-• Constructor. The constructor sets the value of the initial balance and the minimum balance. 
-Initial balance should be >= min balance. 
-• Setters and getters. These methods allow accessing the private data fields. 
-• withdraw. It overrides the method withdraw to allow withdrawing money but not below the 
-minimum balance. 
-• deposit. It deposits an amount of money in the account but only if the amount is >= 100 LE.  
-There is also a Client class which holds the basic information of a client like his name, address 
-and phone number. It holds a pointer to his bank account. An account also points to its owner. 
-The main class that runs the application is BankingApplication. This class displays the main 
-menu and accepts the user's choice. It maintains a list of accounts and clients. It allows the user to 
-perform operations on a bank account.
+### BankAccount
+- Holds basic data for a bank account, including account ID and balance.
+- Constructors:
+  - Sets the balance to a given value.
+  - Sets the balance to 0 (default constructor).
+- Setters and getters for private data fields.
+- `withdraw(amount)`: Withdraws an amount of money from the account if the balance is sufficient.
+- `deposit(amount)`: Deposits an amount of money into the account.
 
->A sample operation of this application looks like the following: 
+### SavingsBankAccount (Inherits from BankAccount)
+- Extends the basic BankAccount with additional functionality.
+- Requires a minimum balance to be maintained.
+- Requires deposits of at least 100 LE.
+- Additional data field:
+  - minimumBalance (default value of 1000 LE).
+- Overrides `withdraw` method to enforce minimum balance.
+- Overrides `deposit` method to only accept deposits >= 100 LE.
 
-'''
+### Client
+- Holds basic information of a client, including name, address, and phone number.
+
+
+### BankingApplication
+- Main class that runs the application.
+- Displays a main menu and accepts user input.
+- Maintains lists of accounts and clients.
+- Allows users to perform operations on bank accounts.
+
+---
+
+## SQLite Database Usage
+
+The banking application utilizes SQLite to store and manage bank account details efficiently. Below is an overview of how SQLite is integrated into the application and its role in storing data:
+
+### Database Structure
+
+The SQLite database consists of a single table named `CLIENTS`, which stores information about bank clients and their accounts. The table schema includes the following fields:
+
+- `ID`: Unique identifier for each client account.
+- `NAME`: Client's name.
+- `ADDRESS`: Client's address.
+- `PHONE`: Client's phone number.
+- `TYPE`: Type of bank account (Basic or Saving).
+- `BALANCE`: Current balance in the account.
+
+### Integration with the Application
+
+- **Initialization**: Upon starting the application, the SQLite database is opened to allow interaction with client data.
+
+- **Account Creation**: When a bank account is created by a bank employee, the client's information, including their name, address, phone number, chosen account type, and starting balance, is inserted into the `CLIENTS` table.
+
+- **Account Listing**: The application retrieves client information from the `CLIENTS` table to display a list of clients and their associated accounts.
+
+- **Account Operations**: Withdrawal and deposit operations involve updating the account balance in the SQLite database based on user input.
+
+### Error Handling
+
+In case of any database-related errors, appropriate error messages are displayed to the user, ensuring a smooth user experience.
+
+---
+
+
+
+## Sample Operation
+
+A sample operation of the application involves creating a new account, withdrawing money, and listing clients and accounts. Below is an example interaction:
+
+```
 Welcome to FCAI Banking Application  
 1. Create a New Account  
 2. List Clients and Accounts  
 3. Withdraw Money  
 4. Deposit Money  
-Cairo University, Faculty of Artificial 
-Intelligence  and Information 
+
 Please Enter Choice =========> 1  
 Please Enter Client Name =========> Ahmed Ali Salem  
 Please Enter Client Address =======> 5 Batn Elzeer St., Giza  
 Please Enter Client Phone =======> 0120130140  
 What Type of Account Do You Like? (1) Basic (2) Saving – Type 1 or 2 =========> 1  
 Please Enter the Starting Balance =========> 1500  
-An account was created with ID FCAI-001 and Starting Balance 1500 L.E.  -------------------------------------------------------------------  
+An account was created with ID FCAI-001 and Starting Balance 1500 L.E.  
+
 Welcome to FCAI Banking Application  
 1. Create a New Account  
 2. List Clients and Accounts  
 3. Withdraw Money  
 4. Deposit Money  
+
 Please Enter Choice =========> 3  
 Please Enter Account ID (e.g., FCAI-015) =========> FCAI-001  
 Account ID: FCAI-001  
-Acocunt Type: Basic  
+Account Type: Basic  
 Balance: 1500  
 Please Enter The Amount to Withdraw =========> 1550  
 Sorry. This is more than what you can withdraw.  
 Please Enter The Amount to Withdraw =========> 40  
 Thank you.  
 Account ID: FCAI-001  
-New Balance: 1460  -------------------------------------------------------------------  
+New Balance: 1460  
+
 Welcome to FCAI Banking Application  
 1. Create a New Account  
 2. List Clients and Accounts  
 3. Withdraw Money  
 4. Deposit Money  
-Please Enter Choice =========> 2  -------------------------- Ahmed Ali Salem ---------  
-Address: 5 Batn Elzeer St., Giza Phone: 01201301400  
+
+Please Enter Choice =========> 2  
+
+-------------------------- Ahmed Ali Salem ---------  
+Address: 5 Batn Elzeer St., Giza  
+Phone: 01201301400  
 Account ID: FCAI-001 (Basic)  
-Balance: 1460  ---------------------------------
-'''
+Balance: 1460  
+```
+
+This repository contains the source code for the banking application as well as this README file. Feel free to explore the code and use it as a reference 
